@@ -13,6 +13,7 @@ import csv
 import math
 import struct
 import zipfile
+import datetime
 from xml.etree import ElementTree as ET
 from array import array
 from dataclasses import dataclass
@@ -566,6 +567,8 @@ def render_html(
     flagged_confirmed: List[Tuple[str, str, str, List[str]]],
     flagged_missing_mini: List[str],
     flagged_missing_mapping: List[str],
+    author: str,
+    generated_date: str,
 ) -> str:
     def render_edge_table(edges: Sequence[EdgeComparison]) -> str:
         rows = []
@@ -678,6 +681,7 @@ def render_html(
 </head>
 <body>
   <h1>脑功能连接组别比较（互动版）</h1>
+  <p>作者：{escape_html(author)}；生成时间：{escape_html(generated_date)}</p>
   <p>提供 Rest 1（6 分钟）与 Rest 2（8 分钟）的组间比较。表格支持本地过滤，便于快速定位差异最大的边。</p>
   {''.join(session_blocks)}
   {dep_section}
@@ -697,134 +701,6 @@ def escape_html(text: str) -> str:
     )
 
 
-def render_html(
-    sessions: List[dict],
-    depression_flags: List[Tuple[str, str, str]],
-    mini_found: List[Tuple[str, str, List[str]]],
-    mini_missing: List[str],
-    flagged_confirmed: List[Tuple[str, str, str, List[str]]],
-    flagged_missing_mini: List[str],
-    flagged_missing_mapping: List[str],
-) -> str:
-    def render_edge_table(edges: Sequence[EdgeComparison]) -> str:
-        rows = []
-        for idx, e in enumerate(edges, start=1):
-            rows.append(
-                f"<tr><td>{idx}</td><td>{escape_html(e.pair[0])} — {escape_html(e.pair[1])}</td>"
-                f"<td>{e.mean_a:.4f}</td><td>{e.mean_b:.4f}</td>"
-                f"<td>{e.difference:.4f}</td><td>{e.cohen_d:.3f}</td><td>{e.t_value:.3f}</td></tr>"
-            )
-        rows_html = "\n".join(rows)
-        return (
-            "<div class='table-wrapper'>"
-            "<input class='filter' placeholder='过滤边名称或数值' oninput='filterTable(this)'/>"
-            "<table><thead><tr><th>#</th><th>Edge</th><th>Mean AH</th><th>Mean AP</th>"
-            "<th>Difference</th><th>Cohen&#39;s d</th><th>t-value</th></tr></thead>"
-            f"<tbody>{rows_html}</tbody></table></div>"
-        )
-
-    session_blocks = []
-    for sess in sessions:
-        session_blocks.append(
-            f"""
-        <section>
-          <h2>{escape_html(sess['name'])}</h2>
-          <p><strong>AH (n={sess['ah_stats'].count}):</strong> {', '.join(sess['ah_ids'])}</p>
-          <p><strong>AP (n={sess['ap_stats'].count}):</strong> {', '.join(sess['ap_ids'])}</p>
-          <p>Overall mean connectivity — AH: {sess['ah_stats'].overall_mean:.4f} ± {sess['ah_stats'].overall_sd:.4f}; 
-          AP: {sess['ap_stats'].overall_mean:.4f} ± {sess['ap_stats'].overall_sd:.4f}</p>
-          <details open>
-            <summary>Top 10 edges by |Cohen&#39;s d|</summary>
-            {render_edge_table(sess['top_edges'])}
-          </details>
-        </section>
-        """
-        )
-
-    def render_list(title: str, items: List[str]) -> str:
-        if not items:
-            return ""
-        return "<details open><summary>" + escape_html(title) + "</summary><ul>" + "".join(
-            f"<li>{escape_html(it)}</li>" for it in items
-        ) + "</ul></details>"
-
-    dep_section = ""
-    if depression_flags:
-        dep_items = "".join(
-            f"<li>AP {escape_html(subj)}: {escape_html(header)} → {escape_html(value)}</li>"
-            for subj, header, value in depression_flags
-        )
-        dep_section = (
-            "<section><h2>AP baseline entries containing “抑郁”</h2><ul>"
-            f"{dep_items}</ul></section>"
-        )
-
-    mini_rows = ""
-    for sid, date, diags in mini_found:
-        diag_text = "; ".join(diags) if diags else "无阳性MINI诊断字段"
-        date_text = f" (访谈时间: {escape_html(date)})" if date else ""
-        mini_rows += f"<li>{escape_html(sid)}{date_text}: {escape_html(diag_text)}</li>"
-    mini_section = (
-        "<section><h2>MINI baseline diagnoses mapped to MRI IDs</h2>"
-        "<h3>有访谈记录</h3><ul>"
-        f"{mini_rows or '<li>未找到匹配记录</li>'}</ul>"
-        f"{render_list('无匹配MINI访谈的MRI编号', mini_missing)}"
-        "</section>"
-    )
-
-    flagged_rows = ""
-    for base_id, mri_id, date, diags in flagged_confirmed:
-        diag_text = "; ".join(diags) if diags else "无阳性MINI字段"
-        date_text = f" (访谈时间: {escape_html(date)})" if date else ""
-        flagged_rows += (
-            f"<li>MRI {escape_html(mri_id)} / 基线编号 {escape_html(base_id)}{date_text}: "
-            f"{escape_html(diag_text)}</li>"
-        )
-    flagged_section = (
-        "<section><h2>用户标注的 NSSI + 抑郁受试者核查</h2>"
-        "<h3>确认名单</h3><ul>"
-        f"{flagged_rows or '<li>无符合条件的受试者</li>'}</ul>"
-        f"{render_list('提供但未在MINI CSV中找到的编号', flagged_missing_mini)}"
-        f"{render_list('有MINI行但缺少MRI映射的编号', flagged_missing_mapping)}"
-        "</section>"
-    )
-
-    return f"""<!DOCTYPE html>
-<html lang="zh">
-<head>
-  <meta charset="UTF-8">
-  <title>脑功能连接组别比较（互动版）</title>
-  <style>
-    body {{ font-family: Arial, sans-serif; margin: 24px; line-height: 1.6; }}
-    section {{ margin-bottom: 32px; }}
-    table {{ border-collapse: collapse; width: 100%; }}
-    th, td {{ border: 1px solid #ddd; padding: 6px 8px; font-size: 14px; }}
-    th {{ background: #f2f2f2; position: sticky; top: 0; }}
-    .table-wrapper {{ max-height: 420px; overflow: auto; border: 1px solid #ddd; }}
-    .filter {{ margin: 8px 0; padding: 6px; width: 260px; }}
-    details summary {{ cursor: pointer; font-weight: 600; }}
-  </style>
-  <script>
-    function filterTable(input) {{
-      const query = input.value.toLowerCase();
-      const tbody = input.closest('.table-wrapper').querySelector('tbody');
-      for (const row of tbody.rows) {{
-        const text = row.innerText.toLowerCase();
-        row.style.display = text.includes(query) ? '' : 'none';
-      }}
-    }}
-  </script>
-</head>
-<body>
-  <h1>脑功能连接组别比较（互动版）</h1>
-  <p>提供 Rest 1（6 分钟）与 Rest 2（8 分钟）的组间比较。表格支持本地过滤，便于快速定位差异最大的边。</p>
-  {''.join(session_blocks)}
-  {dep_section}
-  {mini_section}
-  {flagged_section}
-</body>
-</html>"""
-
 
 def main() -> None:
     root = Path(".")
@@ -835,6 +711,8 @@ def main() -> None:
     ah_ids = read_subject_sequence(root / "AH_Rest_1_SubsSeq.txt") + read_subject_sequence(
         root / "AH_Rest_2_SubsSeq.txt"
     )
+    generated_date = datetime.date.today().isoformat()
+    author = "quanquan"
 
     depression_flags = find_depression_flags(
         baseline_path=root / "北六基线数据-内感受-Selfharm-Suicide-SITBI-截止0401.xlsx",
@@ -881,6 +759,8 @@ def main() -> None:
         "# Functional connectivity group comparison",
         "This report summarizes differences between the AH and AP groups for each rest session.",
         "",
+        f"- Author: {author}",
+        f"- Generated: {generated_date}",
         "- Rest 1: 6-minute acquisition",
         "- Rest 2: 8-minute acquisition",
         "",
@@ -974,6 +854,8 @@ def main() -> None:
         flagged_confirmed=flagged_confirmed,
         flagged_missing_mini=flagged_missing_mini,
         flagged_missing_mapping=flagged_missing_mapping,
+        author=author,
+        generated_date=generated_date,
     )
     Path("analysis_report.html").write_text(html, encoding="utf-8")
 

@@ -26,6 +26,7 @@
 </head>
 <body>
   <h1>脑功能连接组别比较（互动版）</h1>
+  <p>作者：quanquan；生成时间：2025-12-25</p>
   <p>提供 Rest 1（6 分钟）与 Rest 2（8 分钟）的组间比较。表格支持本地过滤，便于快速定位差异最大的边。</p>
   
         <section>
@@ -36,16 +37,16 @@
           AP: 0.3000 ± 0.2655</p>
           <details open>
             <summary>Top 10 edges by |Cohen&#39;s d|</summary>
-            <div class='table-wrapper'><input class='filter' placeholder='过滤边名称或数值' oninput='filterTable(this)'/><table><thead><tr><th>#</th><th>Edge</th><th>Mean AH</th><th>Mean AP</th><th>Difference</th><th>Cohen&#39;s d</th><th>t-value</th></tr></thead><tbody><tr><td>1</td><td>Temporal_Inf_R — Olfactory_R</td><td>0.2348</td><td>0.0323</td><td>0.2025</td><td>1.143</td><td>3.991</td></tr>
-<tr><td>2</td><td>Temporal_Inf_R — Putamen_L</td><td>0.2123</td><td>0.0273</td><td>0.1850</td><td>1.115</td><td>4.110</td></tr>
-<tr><td>3</td><td>Temporal_Inf_R — Putamen_R</td><td>0.1968</td><td>0.0036</td><td>0.1932</td><td>0.994</td><td>3.544</td></tr>
-<tr><td>4</td><td>Supp_Motor_Area_L — Parietal_inf_R</td><td>0.1405</td><td>-0.0230</td><td>0.1635</td><td>0.982</td><td>3.474</td></tr>
-<tr><td>5</td><td>Occipital_inf_R — Frontal_inf_Oper_L</td><td>0.1331</td><td>-0.0735</td><td>0.2067</td><td>0.980</td><td>3.427</td></tr>
-<tr><td>6</td><td>Temporal_Inf_R — Olfactory_L</td><td>0.2289</td><td>0.0506</td><td>0.1783</td><td>0.935</td><td>3.419</td></tr>
-<tr><td>7</td><td>Temporal_Inf_R — Pallidum_R</td><td>0.1541</td><td>-0.0403</td><td>0.1944</td><td>0.869</td><td>3.061</td></tr>
-<tr><td>8</td><td>Fusiform_L — Amygdala_R</td><td>0.5065</td><td>0.3179</td><td>0.1887</td><td>0.867</td><td>3.128</td></tr>
-<tr><td>9</td><td>Temporal_Pole_Mid_L — Fusiform_L</td><td>0.1781</td><td>0.3100</td><td>-0.1319</td><td>-0.848</td><td>-2.991</td></tr>
-<tr><td>10</td><td>Pallidum_R — Fusiform_L</td><td>0.5263</td><td>0.3701</td><td>0.1562</td><td>0.829</td><td>3.059</td></tr></tbody></table></div>
+            <div class='table-wrapper'><input class='filter' placeholder='过滤边名称或数值' oninput='filterTable(this)'/><table><thead><tr><th>#</th><th>Edge</th><th>Mean AH</th><th>Mean AP</th><th>Difference</th><th>Cohen&#39;s d</th><th>t-value</th><th>FDR q</th></tr></thead><tbody><tr><td>1</td><td>Temporal_Inf_R — Olfactory_R</td><td>0.2348</td><td>0.0323</td><td>0.2025</td><td>1.143</td><td>3.991</td><td>0.1319</td></tr>
+<tr><td>2</td><td>Temporal_Inf_R — Putamen_L</td><td>0.2123</td><td>0.0273</td><td>0.1850</td><td>1.115</td><td>4.110</td><td>0.1319</td></tr>
+<tr><td>3</td><td>Temporal_Inf_R — Putamen_R</td><td>0.1968</td><td>0.0036</td><td>0.1932</td><td>0.994</td><td>3.544</td><td>0.4200</td></tr>
+<tr><td>4</td><td>Supp_Motor_Area_L — Parietal_inf_R</td><td>0.1405</td><td>-0.0230</td><td>0.1635</td><td>0.982</td><td>3.474</td><td>0.4200</td></tr>
+<tr><td>5</td><td>Occipital_inf_R — Frontal_inf_Oper_L</td><td>0.1331</td><td>-0.0735</td><td>0.2067</td><td>0.980</td><td>3.427</td><td>0.4200</td></tr>
+<tr><td>6</td><td>Temporal_Inf_R — Olfactory_L</td><td>0.2289</td><td>0.0506</td><td>0.1783</td><td>0.935</td><td>3.419</td><td>0.4200</td></tr>
+<tr><td>7</td><td>Temporal_Inf_R — Pallidum_R</td><td>0.1541</td><td>-0.0403</td><td>0.1944</td><td>0.869</td><td>3.061</td><td>0.9631</td></tr>
+<tr><td>8</td><td>Fusiform_L — Amygdala_R</td><td>0.5065</td><td>0.3179</td><td>0.1887</td><td>0.867</td><td>3.128</td><td>0.9631</td></tr>
+<tr><td>9</td><td>Temporal_Pole_Mid_L — Fusiform_L</td><td>0.1781</td><td>0.3100</td><td>-0.1319</td><td>-0.848</td><td>-2.991</td><td>0.9631</td></tr>
+<tr><td>10</td><td>Pallidum_R — Fusiform_L</td><td>0.5263</td><td>0.3701</td><td>0.1562</td><td>0.829</td><td>3.059</td><td>0.9631</td></tr></tbody></table></div>
           </details>
         </section>
         
@@ -57,16 +58,16 @@
           AP: 0.3154 ± 0.2919</p>
           <details open>
             <summary>Top 10 edges by |Cohen&#39;s d|</summary>
-            <div class='table-wrapper'><input class='filter' placeholder='过滤边名称或数值' oninput='filterTable(this)'/><table><thead><tr><th>#</th><th>Edge</th><th>Mean AH</th><th>Mean AP</th><th>Difference</th><th>Cohen&#39;s d</th><th>t-value</th></tr></thead><tbody><tr><td>1</td><td>Occipital_Sup_R — Frontal_Inf_Tri_L</td><td>-0.1950</td><td>0.0934</td><td>-0.2884</td><td>-1.213</td><td>-4.301</td></tr>
-<tr><td>2</td><td>Temporal_Inf_R — Olfactory_L</td><td>0.2299</td><td>-0.0096</td><td>0.2395</td><td>1.158</td><td>4.160</td></tr>
-<tr><td>3</td><td>Rectus_L — Frontal_Sup_Orb_L</td><td>0.7139</td><td>0.5439</td><td>0.1700</td><td>1.034</td><td>3.934</td></tr>
-<tr><td>4</td><td>Temporal_Inf_R — Hippocampus_R</td><td>0.1840</td><td>-0.0245</td><td>0.2085</td><td>1.031</td><td>3.694</td></tr>
-<tr><td>5</td><td>Temporal_Pole_Sup_R — Parietal_Sup_R</td><td>0.2406</td><td>0.0124</td><td>0.2282</td><td>1.017</td><td>3.644</td></tr>
-<tr><td>6</td><td>Temporal_Inf_R — Rolandic_Oper_R</td><td>0.1654</td><td>-0.0190</td><td>0.1843</td><td>1.011</td><td>3.693</td></tr>
-<tr><td>7</td><td>Temporal_Mid_R — Rolandic_Oper_L</td><td>0.1496</td><td>-0.0735</td><td>0.2231</td><td>0.976</td><td>3.447</td></tr>
-<tr><td>8</td><td>Temporal_Pole_Sup_R — Parietal_inf_R</td><td>0.1834</td><td>-0.0237</td><td>0.2071</td><td>0.967</td><td>3.387</td></tr>
-<tr><td>9</td><td>ParaHippocampus_L — Frontal_Sup_Orb_L</td><td>0.4534</td><td>0.2464</td><td>0.2071</td><td>0.964</td><td>3.668</td></tr>
-<tr><td>10</td><td>Temporal_Mid_R — Pallidum_L</td><td>0.1949</td><td>0.0099</td><td>0.1850</td><td>0.911</td><td>3.251</td></tr></tbody></table></div>
+            <div class='table-wrapper'><input class='filter' placeholder='过滤边名称或数值' oninput='filterTable(this)'/><table><thead><tr><th>#</th><th>Edge</th><th>Mean AH</th><th>Mean AP</th><th>Difference</th><th>Cohen&#39;s d</th><th>t-value</th><th>FDR q</th></tr></thead><tbody><tr><td>1</td><td>Occipital_Sup_R — Frontal_Inf_Tri_L</td><td>-0.1950</td><td>0.0934</td><td>-0.2884</td><td>-1.213</td><td>-4.301</td><td>0.0637</td></tr>
+<tr><td>2</td><td>Temporal_Inf_R — Olfactory_L</td><td>0.2299</td><td>-0.0096</td><td>0.2395</td><td>1.158</td><td>4.160</td><td>0.0637</td></tr>
+<tr><td>3</td><td>Rectus_L — Frontal_Sup_Orb_L</td><td>0.7139</td><td>0.5439</td><td>0.1700</td><td>1.034</td><td>3.934</td><td>0.1115</td></tr>
+<tr><td>4</td><td>Temporal_Inf_R — Hippocampus_R</td><td>0.1840</td><td>-0.0245</td><td>0.2085</td><td>1.031</td><td>3.694</td><td>0.1538</td></tr>
+<tr><td>5</td><td>Temporal_Pole_Sup_R — Parietal_Sup_R</td><td>0.2406</td><td>0.0124</td><td>0.2282</td><td>1.017</td><td>3.644</td><td>0.1538</td></tr>
+<tr><td>6</td><td>Temporal_Inf_R — Rolandic_Oper_R</td><td>0.1654</td><td>-0.0190</td><td>0.1843</td><td>1.011</td><td>3.693</td><td>0.1538</td></tr>
+<tr><td>7</td><td>Temporal_Mid_R — Rolandic_Oper_L</td><td>0.1496</td><td>-0.0735</td><td>0.2231</td><td>0.976</td><td>3.447</td><td>0.2835</td></tr>
+<tr><td>8</td><td>Temporal_Pole_Sup_R — Parietal_inf_R</td><td>0.1834</td><td>-0.0237</td><td>0.2071</td><td>0.967</td><td>3.387</td><td>0.3143</td></tr>
+<tr><td>9</td><td>ParaHippocampus_L — Frontal_Sup_Orb_L</td><td>0.4534</td><td>0.2464</td><td>0.2071</td><td>0.964</td><td>3.668</td><td>0.1538</td></tr>
+<tr><td>10</td><td>Temporal_Mid_R — Pallidum_L</td><td>0.1949</td><td>0.0099</td><td>0.1850</td><td>0.911</td><td>3.251</td><td>0.4027</td></tr></tbody></table></div>
           </details>
         </section>
         

@@ -1,6 +1,8 @@
 # Functional connectivity group comparison
 This report summarizes differences between the AH and AP groups for each rest session.
 
+- Author: quanquan
+- Generated: 2025-12-25
 - Rest 1: 6-minute acquisition
 - Rest 2: 8-minute acquisition
 
