@@ -171,6 +171,7 @@ class EdgeComparison:
     cohen_d: float
     t_value: float
     fdr_q: float = 1.0
+    significant: bool = False
 
 
 def compare_groups(
@@ -229,6 +230,7 @@ def compare_groups(
             bh_values[i] = prev
         for comp, q in zip(comparisons, bh_values):
             comp.fdr_q = min(q, 1.0)
+            comp.significant = comp.fdr_q < 0.05
 
     return comparisons
 
@@ -244,14 +246,15 @@ def top_edges(
 
 def format_edge_table(edges: Sequence[EdgeComparison]) -> str:
     lines = [
-        "| Rank | Edge | Mean AH | Mean AP | Difference | Cohen's d | t-value | FDR q |",
-        "| --- | --- | --- | --- | --- | --- | --- | --- |",
+        "| Rank | Edge | Mean AH | Mean AP | Difference | Cohen's d | t-value | FDR q | Sig (q<0.05) |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for rank, edge in enumerate(edges, start=1):
         lines.append(
             f"| {rank} | {edge.pair[0]} — {edge.pair[1]} | "
             f"{edge.mean_a:.4f} | {edge.mean_b:.4f} | "
-            f"{edge.difference:.4f} | {edge.cohen_d:.3f} | {edge.t_value:.3f} | {edge.fdr_q:.4f} |"
+            f"{edge.difference:.4f} | {edge.cohen_d:.3f} | {edge.t_value:.3f} | {edge.fdr_q:.4f} | "
+            f"{'显著' if edge.significant else ''} |"
         )
     return "\n".join(lines)
 
@@ -273,12 +276,14 @@ def analyze_session(
     ap_stats = compute_group_stats(ap_data)
     comparisons = compare_groups(ah_stats, ap_stats, pairs)
     strongest = top_edges(comparisons, key="cohen_d", limit=10)
+    sig_count = sum(1 for c in comparisons if c.significant)
 
     lines = [
         f"## {session_name}",
         f"- AH subjects: {ah_stats.count} (IDs: {', '.join(ah_ids)})",
         f"- AP subjects: {ap_stats.count} (IDs: {', '.join(ap_ids)})",
         f"- Edges per subject: {len(pairs)}",
+        f"- Significant edges at q<0.05: {sig_count} / {len(pairs)}",
         "",
         f"Overall mean connectivity (AH): {ah_stats.overall_mean:.4f} ± {ah_stats.overall_sd:.4f}",
         f"Overall mean connectivity (AP): {ap_stats.overall_mean:.4f} ± {ap_stats.overall_sd:.4f}",
@@ -576,14 +581,15 @@ def render_html(
             rows.append(
                 f"<tr><td>{idx}</td><td>{escape_html(e.pair[0])} — {escape_html(e.pair[1])}</td>"
                 f"<td>{e.mean_a:.4f}</td><td>{e.mean_b:.4f}</td>"
-                f"<td>{e.difference:.4f}</td><td>{e.cohen_d:.3f}</td><td>{e.t_value:.3f}</td><td>{e.fdr_q:.4f}</td></tr>"
-            )
+            f"<td>{e.difference:.4f}</td><td>{e.cohen_d:.3f}</td><td>{e.t_value:.3f}</td>"
+            f"<td>{e.fdr_q:.4f}</td><td>{'显著' if e.significant else ''}</td></tr>"
+        )
         rows_html = "\n".join(rows)
         return (
             "<div class='table-wrapper'>"
             "<input class='filter' placeholder='过滤边名称或数值' oninput='filterTable(this)'/>"
             "<table><thead><tr><th>#</th><th>Edge</th><th>Mean AH</th><th>Mean AP</th>"
-            "<th>Difference</th><th>Cohen&#39;s d</th><th>t-value</th><th>FDR q</th></tr></thead>"
+            "<th>Difference</th><th>Cohen&#39;s d</th><th>t-value</th><th>FDR q</th><th>Sig</th></tr></thead>"
             f"<tbody>{rows_html}</tbody></table></div>"
         )
 
