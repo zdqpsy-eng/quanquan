@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>脑功能连接组别比较（互动版）</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; line-height: 1.6; }
+    section { margin-bottom: 32px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 6px 8px; font-size: 14px; }
+    th { background: #f2f2f2; position: sticky; top: 0; }
+    .table-wrapper { max-height: 420px; overflow: auto; border: 1px solid #ddd; }
+    .filter { margin: 8px 0; padding: 6px; width: 260px; }
+    details summary { cursor: pointer; font-weight: 600; }
+  </style>
+  <script>
+    function filterTable(input) {
+      const query = input.value.toLowerCase();
+      const tbody = input.closest('.table-wrapper').querySelector('tbody');
+      for (const row of tbody.rows) {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>脑功能连接组别比较（互动版）</h1>
+  <p>提供 Rest 1（6 分钟）与 Rest 2（8 分钟）的组间比较。表格支持本地过滤，便于快速定位差异最大的边。</p>
+  
+        <section>
+          <h2>Rest 1</h2>
+          <p><strong>AH (n=23):</strong> 3001, 3002, 3003, 3004, 3005, 3007, 3008, 3009, 3010, 3011, 3012, 3013, 3014, 3015, 3016, 3017, 3018, 3019, 3020, 3021, 3022, 3024, 3025</p>
+          <p><strong>AP (n=28):</strong> 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025, 2027, 2028, 2029, 2030, 2031</p>
+          <p>Overall mean connectivity — AH: 0.3201 ± 0.2644; 
+          AP: 0.3000 ± 0.2655</p>
+          <details open>
+            <summary>Top 10 edges by |Cohen&#39;s d|</summary>
+            <div class='table-wrapper'><input class='filter' placeholder='过滤边名称或数值' oninput='filterTable(this)'/><table><thead><tr><th>#</th><th>Edge</th><th>Mean AH</th><th>Mean AP</th><th>Difference</th><th>Cohen&#39;s d</th><th>t-value</th></tr></thead><tbody><tr><td>1</td><td>Temporal_Inf_R — Olfactory_R</td><td>0.2348</td><td>0.0323</td><td>0.2025</td><td>1.143</td><td>3.991</td></tr>
+<tr><td>2</td><td>Temporal_Inf_R — Putamen_L</td><td>0.2123</td><td>0.0273</td><td>0.1850</td><td>1.115</td><td>4.110</td></tr>
+<tr><td>3</td><td>Temporal_Inf_R — Putamen_R</td><td>0.1968</td><td>0.0036</td><td>0.1932</td><td>0.994</td><td>3.544</td></tr>
+<tr><td>4</td><td>Supp_Motor_Area_L — Parietal_inf_R</td><td>0.1405</td><td>-0.0230</td><td>0.1635</td><td>0.982</td><td>3.474</td></tr>
+<tr><td>5</td><td>Occipital_inf_R — Frontal_inf_Oper_L</td><td>0.1331</td><td>-0.0735</td><td>0.2067</td><td>0.980</td><td>3.427</td></tr>
+<tr><td>6</td><td>Temporal_Inf_R — Olfactory_L</td><td>0.2289</td><td>0.0506</td><td>0.1783</td><td>0.935</td><td>3.419</td></tr>
+<tr><td>7</td><td>Temporal_Inf_R — Pallidum_R</td><td>0.1541</td><td>-0.0403</td><td>0.1944</td><td>0.869</td><td>3.061</td></tr>
+<tr><td>8</td><td>Fusiform_L — Amygdala_R</td><td>0.5065</td><td>0.3179</td><td>0.1887</td><td>0.867</td><td>3.128</td></tr>
+<tr><td>9</td><td>Temporal_Pole_Mid_L — Fusiform_L</td><td>0.1781</td><td>0.3100</td><td>-0.1319</td><td>-0.848</td><td>-2.991</td></tr>
+<tr><td>10</td><td>Pallidum_R — Fusiform_L</td><td>0.5263</td><td>0.3701</td><td>0.1562</td><td>0.829</td><td>3.059</td></tr></tbody></table></div>
+          </details>
+        </section>
+        
+        <section>
+          <h2>Rest 2</h2>
+          <p><strong>AH (n=23):</strong> 3001, 3002, 3003, 3005, 3006, 3007, 3008, 3009, 3010, 3011, 3012, 3014, 3015, 3016, 3017, 3018, 3019, 3020, 3021, 3022, 3023, 3024, 3025</p>
+          <p><strong>AP (n=29):</strong> 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2026, 2027, 2028, 2029, 2030, 2031</p>
+          <p>Overall mean connectivity — AH: 0.3312 ± 0.2842; 
+          AP: 0.3154 ± 0.2919</p>
+          <details open>
+            <summary>Top 10 edges by |Cohen&#39;s d|</summary>
+            <div class='table-wrapper'><input class='filter' placeholder='过滤边名称或数值' oninput='filterTable(this)'/><table><thead><tr><th>#</th><th>Edge</th><th>Mean AH</th><th>Mean AP</th><th>Difference</th><th>Cohen&#39;s d</th><th>t-value</th></tr></thead><tbody><tr><td>1</td><td>Occipital_Sup_R — Frontal_Inf_Tri_L</td><td>-0.1950</td><td>0.0934</td><td>-0.2884</td><td>-1.213</td><td>-4.301</td></tr>
+<tr><td>2</td><td>Temporal_Inf_R — Olfactory_L</td><td>0.2299</td><td>-0.0096</td><td>0.2395</td><td>1.158</td><td>4.160</td></tr>
+<tr><td>3</td><td>Rectus_L — Frontal_Sup_Orb_L</td><td>0.7139</td><td>0.5439</td><td>0.1700</td><td>1.034</td><td>3.934</td></tr>
+<tr><td>4</td><td>Temporal_Inf_R — Hippocampus_R</td><td>0.1840</td><td>-0.0245</td><td>0.2085</td><td>1.031</td><td>3.694</td></tr>
+<tr><td>5</td><td>Temporal_Pole_Sup_R — Parietal_Sup_R</td><td>0.2406</td><td>0.0124</td><td>0.2282</td><td>1.017</td><td>3.644</td></tr>
+<tr><td>6</td><td>Temporal_Inf_R — Rolandic_Oper_R</td><td>0.1654</td><td>-0.0190</td><td>0.1843</td><td>1.011</td><td>3.693</td></tr>
+<tr><td>7</td><td>Temporal_Mid_R — Rolandic_Oper_L</td><td>0.1496</td><td>-0.0735</td><td>0.2231</td><td>0.976</td><td>3.447</td></tr>
+<tr><td>8</td><td>Temporal_Pole_Sup_R — Parietal_inf_R</td><td>0.1834</td><td>-0.0237</td><td>0.2071</td><td>0.967</td><td>3.387</td></tr>
+<tr><td>9</td><td>ParaHippocampus_L — Frontal_Sup_Orb_L</td><td>0.4534</td><td>0.2464</td><td>0.2071</td><td>0.964</td><td>3.668</td></tr>
+<tr><td>10</td><td>Temporal_Mid_R — Pallidum_L</td><td>0.1949</td><td>0.0099</td><td>0.1850</td><td>0.911</td><td>3.251</td></tr></tbody></table></div>
+          </details>
+        </section>
+        
+  <section><h2>AP baseline entries containing “抑郁”</h2><ul><li>AP 2017: 4.6.23.1 若有，请指出是哪种躯体疾病或精神疾病服药史 → 抑郁症文拉法辛</li><li>AP 2023: 4.6.21.1 您的【其他亲属（叔/伯/姑/婶/舅/姨等）】曾经被精神/心理科医生诊断为哪种精神疾病？（可多选）： → 抑郁症</li><li>AP 2002: 您使用了什么类型的药物： → 抗抑郁和抗焦虑的</li></ul></section>
+  <section><h2>MINI baseline diagnoses mapped to MRI IDs</h2><h3>有访谈记录</h3><ul><li>2001 (访谈时间: 2024/3/28): 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=3; 广泛性焦虑障碍_MINI=1</li><li>2002 (访谈时间: 2024/6/3): 抑郁发作-既往_MINI=1; 自杀倾向_MINI=3; 躁狂发作-既往_MINI=1; 广场恐怖_MINI=1; 广泛性焦虑障碍_MINI=1</li><li>2003 (访谈时间: 2024/5/29): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=2; 广泛性焦虑障碍_MINI=1</li><li>2005 (访谈时间: 2024/5/30): 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=3; 终生惊恐障碍_MINI=1; 当前的惊恐障碍_MINI=1</li><li>2006 (访谈时间: 2024/6/14): 抑郁发作-既往_MINI=1; 自杀倾向_MINI=3</li><li>2007 (访谈时间: 2024/4/18): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=1; 广场恐怖_MINI=1</li><li>2008 (访谈时间: 2024/6/6): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=1; 当前社交恐怖_MINI=1; 广泛性焦虑障碍_MINI=1</li><li>2009 (访谈时间: 2024/7/18): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=1; 躁狂发作-既往_MINI=2; 终生惊恐障碍_MINI=1; 当前的惊恐障碍_MINI=1; 当前社交恐怖_MINI=1; 精神病特征的心境障碍当前_MINI=1; 广泛性焦虑障碍_MINI=1</li><li>2010 (访谈时间: 2024/7/24): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=1; 躁狂病史_MINI=1; 广泛性焦虑障碍_MINI=1</li><li>2011 (访谈时间: 2024/3/20): 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=3; 躁狂发作-既往_MINI=2; 终生惊恐障碍_MINI=1; 广场恐怖_MINI=1; 广泛性焦虑障碍_MINI=1</li><li>2013 (访谈时间: 2024/4/3): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=3; 躁狂病史_MINI=1; 躁狂发作-既往_MINI=2; 广场恐怖_MINI=1; 精神病特征的心境障碍当前_MINI=1</li><li>2014 (访谈时间: 2024/8/6): 自杀倾向_MINI=3</li><li>2015 (访谈时间: 2024/10/29): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 自杀倾向_MINI=3; 终生惊恐障碍_MINI=1; 当前的惊恐障碍_MINI=1; 广场恐怖_MINI=1</li><li>2017 (访谈时间: 2024/11/12): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 自杀倾向_MINI=3; 躁狂病史_MINI=1</li><li>2018 (访谈时间: 2024/11/25): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 自杀倾向_MINI=3; 终生惊恐障碍_MINI=1; 当前的惊恐障碍_MINI=1; 广场恐怖_MINI=1; 广泛性焦虑障碍_MINI=1</li><li>2019 (访谈时间: 2024/11/22): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=3; 躁狂发作-既往_MINI=3; 终生惊恐障碍_MINI=1; 广场恐怖_MINI=1</li><li>2020 (访谈时间: 2024/11/21): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 自杀倾向_MINI=3; 躁狂发作-既往_MINI=2</li><li>2022 (访谈时间: 2024/12/16): 抑郁发作-复发_MINI=1; 自杀倾向_MINI=3; 终生惊恐障碍_MINI=1; 广场恐怖_MINI=1</li><li>2024 (访谈时间: 2024/12/31): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 自杀倾向_MINI=1; 躁狂病史_MINI=1</li><li>2025 (访谈时间: 2025/2/10): 抑郁发作-既往_MINI=1; 自杀倾向_MINI=3; 躁狂病史_MINI=1; 广场恐怖_MINI=1; 当前社交恐怖_MINI=1; 广泛性焦虑障碍_MINI=1</li><li>2029 (访谈时间: 2025/3/4): 抑郁发作-既往_MINI=1; 自杀倾向_MINI=1; 躁狂发作-当前_MINI=2; 躁狂发作-既往_MINI=2; 广泛性焦虑障碍_MINI=1</li></ul><details open><summary>无匹配MINI访谈的MRI编号</summary><ul><li>2004</li><li>2016</li><li>2021</li><li>2023</li><li>2026</li><li>2027</li><li>2028</li><li>2030</li><li>2031</li><li>3001</li><li>3002</li><li>3003</li><li>3004</li><li>3005</li><li>3006</li><li>3007</li><li>3008</li><li>3009</li><li>3010</li><li>3011</li><li>3012</li><li>3013</li><li>3014</li><li>3015</li><li>3016</li><li>3017</li><li>3018</li><li>3019</li><li>3020</li><li>3021</li><li>3022</li><li>3023</li><li>3024</li><li>3025</li></ul></details></section>
+  <section><h2>用户标注的 NSSI + 抑郁受试者核查</h2><h3>确认名单</h3><ul><li>MRI 2018 / 基线编号 11251049 (访谈时间: 2024/11/25): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 自杀倾向_MINI=3; 终生惊恐障碍_MINI=1; 当前的惊恐障碍_MINI=1; 广场恐怖_MINI=1; 广泛性焦虑障碍_MINI=1</li><li>MRI 2022 / 基线编号 12101050 (访谈时间: 2024/12/16): 抑郁发作-复发_MINI=1; 自杀倾向_MINI=3; 终生惊恐障碍_MINI=1; 广场恐怖_MINI=1</li><li>MRI 2013 / 基线编号 04031005 (访谈时间: 2024/4/3): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=3; 躁狂病史_MINI=1; 躁狂发作-既往_MINI=2; 广场恐怖_MINI=1; 精神病特征的心境障碍当前_MINI=1</li><li>MRI 2001 / 基线编号 03281004 (访谈时间: 2024/3/28): 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=3; 广泛性焦虑障碍_MINI=1</li><li>MRI 2003 / 基线编号 05291011 (访谈时间: 2024/5/29): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=2; 广泛性焦虑障碍_MINI=1</li><li>MRI 2008 / 基线编号 06061015 (访谈时间: 2024/6/6): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=1; 当前社交恐怖_MINI=1; 广泛性焦虑障碍_MINI=1</li><li>MRI 2009 / 基线编号 07171023 (访谈时间: 2024/7/18): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=1; 躁狂发作-既往_MINI=2; 终生惊恐障碍_MINI=1; 当前的惊恐障碍_MINI=1; 当前社交恐怖_MINI=1; 精神病特征的心境障碍当前_MINI=1; 广泛性焦虑障碍_MINI=1</li><li>MRI 2025 / 基线编号 122501640 (访谈时间: 2025/2/10): 抑郁发作-既往_MINI=1; 自杀倾向_MINI=3; 躁狂病史_MINI=1; 广场恐怖_MINI=1; 当前社交恐怖_MINI=1; 广泛性焦虑障碍_MINI=1</li><li>MRI 2037 / 基线编号 02181078 (访谈时间: 2025/2/27): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 自杀倾向_MINI=2; 躁狂病史_MINI=1; 当前的惊恐障碍_MINI=1; 广场恐怖_MINI=1; 酒精滥用_MINI=1</li><li>MRI 2032 / 基线编号 03111088 (访谈时间: 2025/3/18): 抑郁发作-既往_MINI=1; 自杀倾向_MINI=1</li><li>MRI 2029 / 基线编号 02281085 (访谈时间: 2025/3/4): 抑郁发作-既往_MINI=1; 自杀倾向_MINI=1; 躁狂发作-当前_MINI=2; 躁狂发作-既往_MINI=2; 广泛性焦虑障碍_MINI=1</li><li>MRI 2015 / 基线编号 10291041 (访谈时间: 2024/10/29): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 自杀倾向_MINI=3; 终生惊恐障碍_MINI=1; 当前的惊恐障碍_MINI=1; 广场恐怖_MINI=1</li><li>MRI 2011 / 基线编号 03200002 (访谈时间: 2024/3/20): 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=3; 躁狂发作-既往_MINI=2; 终生惊恐障碍_MINI=1; 广场恐怖_MINI=1; 广泛性焦虑障碍_MINI=1</li><li>MRI 2010 / 基线编号 07240024 (访谈时间: 2024/7/24): 抑郁发作-当前_MINI=1; 抑郁发作-既往_MINI=1; 抑郁发作-复发_MINI=1; 自杀倾向_MINI=1; 躁狂病史_MINI=1; 广泛性焦虑障碍_MINI=1</li></ul><details open><summary>提供但未在MINI CSV中找到的编号</summary><ul><li>07071133</li><li>07191134</li><li>02031007</li><li>04181009</li><li>07231129</li><li>02031039</li><li>13191059</li><li>08061031</li><li>07260131</li><li>21031003</li><li>02111074</li></ul></details><details open><summary>有MINI行但缺少MRI映射的编号</summary><ul><li>240320CYW</li><li>07311028</li><li>08211030</li><li>09101034</li><li>04111099</li><li>06171017</li><li>01161067</li><li>062610440</li><li>07011132</li><li>07250025</li><li>12131052</li><li>12271058</li><li>01041062</li><li>02071073</li><li>04011094</li><li>10311042</li><li>06030124</li></ul></details></section>
+</body>
+</html>
