@@ -169,6 +169,7 @@ class EdgeComparison:
     difference: float
     cohen_d: float
     t_value: float
+    fdr_q: float = 1.0
 
 
 def compare_groups(
@@ -181,6 +182,7 @@ def compare_groups(
 
     comparisons: List[EdgeComparison] = []
     n_a, n_b = stats_a.count, stats_b.count
+    p_values: List[float] = []
     for idx, (pair, mean_a, mean_b, var_a, var_b) in enumerate(
         zip(pairs, stats_a.means, stats_b.means, stats_a.variances, stats_b.variances)
     ):
@@ -196,6 +198,11 @@ def compare_groups(
         denom = var_a / n_a + var_b / n_b if n_a > 0 and n_b > 0 else 0.0
         t_value = diff / math.sqrt(denom) if denom > 0 else 0.0
 
+        # Approximate two-sided p-value using a normal approximation to t.
+        # In the absence of SciPy, this serves as a reasonable large-sample proxy.
+        p_value = math.erfc(abs(t_value) / math.sqrt(2.0))
+        p_values.append(p_value)
+
         comparisons.append(
             EdgeComparison(
                 index=idx,
@@ -207,6 +214,21 @@ def compare_groups(
                 t_value=t_value,
             )
         )
+
+    # Benjamini-Hochberg FDR correction.
+    m = len(p_values)
+    if m:
+        sorted_idx = sorted(range(m), key=lambda i: p_values[i])
+        bh_values = [0.0] * m
+        prev = 1.0
+        for rank, i in enumerate(reversed(sorted_idx), start=1):
+            idx_from_start = m - rank + 1
+            q = p_values[i] * m / idx_from_start
+            prev = min(prev, q)
+            bh_values[i] = prev
+        for comp, q in zip(comparisons, bh_values):
+            comp.fdr_q = min(q, 1.0)
+
     return comparisons
 
 
@@ -221,14 +243,14 @@ def top_edges(
 
 def format_edge_table(edges: Sequence[EdgeComparison]) -> str:
     lines = [
-        "| Rank | Edge | Mean AH | Mean AP | Difference | Cohen's d | t-value |",
-        "| --- | --- | --- | --- | --- | --- | --- |",
+        "| Rank | Edge | Mean AH | Mean AP | Difference | Cohen's d | t-value | FDR q |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for rank, edge in enumerate(edges, start=1):
         lines.append(
             f"| {rank} | {edge.pair[0]} — {edge.pair[1]} | "
             f"{edge.mean_a:.4f} | {edge.mean_b:.4f} | "
-            f"{edge.difference:.4f} | {edge.cohen_d:.3f} | {edge.t_value:.3f} |"
+            f"{edge.difference:.4f} | {edge.cohen_d:.3f} | {edge.t_value:.3f} | {edge.fdr_q:.4f} |"
         )
     return "\n".join(lines)
 
@@ -551,14 +573,14 @@ def render_html(
             rows.append(
                 f"<tr><td>{idx}</td><td>{escape_html(e.pair[0])} — {escape_html(e.pair[1])}</td>"
                 f"<td>{e.mean_a:.4f}</td><td>{e.mean_b:.4f}</td>"
-                f"<td>{e.difference:.4f}</td><td>{e.cohen_d:.3f}</td><td>{e.t_value:.3f}</td></tr>"
+                f"<td>{e.difference:.4f}</td><td>{e.cohen_d:.3f}</td><td>{e.t_value:.3f}</td><td>{e.fdr_q:.4f}</td></tr>"
             )
         rows_html = "\n".join(rows)
         return (
             "<div class='table-wrapper'>"
             "<input class='filter' placeholder='过滤边名称或数值' oninput='filterTable(this)'/>"
             "<table><thead><tr><th>#</th><th>Edge</th><th>Mean AH</th><th>Mean AP</th>"
-            "<th>Difference</th><th>Cohen&#39;s d</th><th>t-value</th></tr></thead>"
+            "<th>Difference</th><th>Cohen&#39;s d</th><th>t-value</th><th>FDR q</th></tr></thead>"
             f"<tbody>{rows_html}</tbody></table></div>"
         )
 
